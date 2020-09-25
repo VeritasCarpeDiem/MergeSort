@@ -5,12 +5,12 @@ using System.Text;
 
 namespace DeleteMeMergeSort
 {
-    class mergeSort<T> where T : IComparable<T>
+    class MergeSort<T> where T : IComparable<T>
     {
-        public static T[] MergeSort(T[] numbers)
+        public static T[] Mergesort(T[] numbers)
         {
 
-            if (numbers.Length < 2)
+            if (numbers.Length < 2) //base case
             {
                 return numbers;
             }
@@ -18,16 +18,12 @@ namespace DeleteMeMergeSort
             T[] left = new T[numbers.Length - mid];
             T[] right = new T[mid];
 
-            List<T> leftSide = new List<T>();
-
-            List<T> RightSide = new List<T>();
-
 
             for (int i = 0; i < numbers.Length; i++)
             {
                 if (i < left.Length)
                 {
-                    leftSide[i] = numbers[i];
+                    left[i] = numbers[i];
                 }
                 else
                 {
@@ -35,7 +31,7 @@ namespace DeleteMeMergeSort
                 }
             }
 
-            return Merge(MergeSort(left), MergeSort(right));
+            return Merge(Mergesort(left), Mergesort(right)); //recursively call merge on sorted parts of the array
 
         }
 
@@ -46,23 +42,41 @@ namespace DeleteMeMergeSort
             int LeftIndex = 0;
             int RightIndex = 0;
             int SortedArrayIndex = 0;
-            while (LeftIndex < left.Length || RightIndex < right.Length)
+
+            while (LeftIndex < left.Length && RightIndex < right.Length)
             {
-                if (left[LeftIndex].CompareTo(right[RightIndex]) < 0) //-1 is <, 0 is =, 1 is >
+                
+                if (left[LeftIndex].CompareTo(right[RightIndex]) <0) //-1 is <, 0 is =, 1 is >
                 {
 
                     SortedArray[SortedArrayIndex] = left[LeftIndex];
 
-                    SortedArrayIndex++;
+                    LeftIndex++;
                 }
 
                 else
                 {
                     SortedArray[SortedArrayIndex] = right[RightIndex];
 
-                    SortedArrayIndex++;
+                    RightIndex++;
                 }
+                SortedArrayIndex++;
             }
+
+            while(LeftIndex< left.Length)
+            {
+                SortedArray[SortedArrayIndex] = left[LeftIndex];
+                LeftIndex++;
+                SortedArrayIndex++;
+            }
+            while(RightIndex<right.Length)
+            {
+                SortedArray[SortedArrayIndex] = right[RightIndex];
+
+                SortedArrayIndex++;
+                RightIndex++;
+            }
+            return SortedArray;
 
         }
 
